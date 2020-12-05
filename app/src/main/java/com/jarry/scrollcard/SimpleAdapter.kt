@@ -16,7 +16,7 @@ class SimpleAdapter constructor(private var mList: MutableList<String>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHd {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.adapter_item, null)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.adapter_item, parent, false)
         return MyHd(v)
     }
 

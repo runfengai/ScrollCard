@@ -1,6 +1,5 @@
 package com.jarry.scrollcard
 
-import android.util.Log
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
@@ -94,6 +93,21 @@ class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
         return (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && (child == directTargetChild)
     }
 
+    override fun onNestedPreScroll(
+        parent: CoordinatorLayout,
+        child: CardItemLayout,
+        target: View,
+        dx: Int,
+        dy: Int,
+        consumed: IntArray,
+        type: Int
+    ) {
+        consumed[1] =
+            scroll(child, dy, mInitialOffset, mInitialOffset + child.height - child.titleH)
+        //控制上边和下边child的移动
+        shiftScroll(consumed[1], parent, child)
+    }
+
     override fun onNestedScroll(
         coordinatorLayout: CoordinatorLayout,
         child: CardItemLayout,
@@ -107,8 +121,14 @@ class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
     ) {
         //控制自己的滑动
 
-
+        val offset = scroll(
+            child,
+            dyUnconsumed,
+            mInitialOffset,
+            mInitialOffset + child.height - child.titleH
+        )
         //控制上边、下边的滑动
+        shiftScroll(offset, coordinatorLayout, child)
 
 
         super.onNestedScroll(
@@ -122,6 +142,62 @@ class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
             type,
             consumed
         )
+    }
+
+    //兼顾滚动上边和下边
+    private fun shiftScroll(offset: Int, parent: CoordinatorLayout, child: CardItemLayout) {
+        if (offset == 0) return
+        if (offset > 0) {//向上
+            var curr = child
+            var prevCard = getPreviousChild(parent, curr)
+            while (prevCard != null) {
+                val offset = getHeaderOverlap(prevCard, curr)
+                if (offset > 0) {
+                    prevCard.offsetTopAndBottom(-offset)
+                }
+                curr = prevCard
+                prevCard = getPreviousChild(parent, curr)
+            }
+        } else {//向下
+            var curr = child
+            var nextCard = getNextChild(parent, curr)
+            while (nextCard != null) {
+                val offset = getHeaderOverlap(curr, nextCard)
+                if (offset > 0) {
+                    nextCard.offsetTopAndBottom(offset)
+                }
+                curr = nextCard
+                nextCard = getNextChild(parent, curr)
+            }
+
+        }
+    }
+
+    private fun getHeaderOverlap(curr: CardItemLayout, nextCard: CardItemLayout): Int {
+        return curr.top + curr.titleH - nextCard.top
+    }
+
+    private fun getNextChild(parent: CoordinatorLayout, child: CardItemLayout): CardItemLayout? {
+        val index = parent.indexOfChild(child)
+
+        for (i in index + 1 until parent.childCount) {
+            if (parent[i] is CardItemLayout) {
+                return parent[i] as CardItemLayout
+            }
+        }
+
+        return null
+    }
+
+    private fun scroll(child: CardItemLayout, dy: Int, minOffset: Int, maxOffset: Int): Int {
+        val initialOffset = child.top
+        val offset = clamp(initialOffset - dy, minOffset, maxOffset) - initialOffset
+        child.offsetTopAndBottom(offset)
+        return -offset//往上是正，往下是负
+    }
+
+    private fun clamp(i: Int, min: Int, max: Int): Int {
+        return if (i < min) min else if (i > max) max else i
     }
 
 }

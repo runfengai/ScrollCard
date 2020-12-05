@@ -16,6 +16,6 @@ class MainActivity : AppCompatActivity() {
 
         card0.setData(Entity("苹果",list))
         card1.setData(Entity("香蕉",list))
-        card1.setData(Entity("柿子",list))
+        card2.setData(Entity("柿子",list))
     }
 }
