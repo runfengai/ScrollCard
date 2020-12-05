@@ -4,6 +4,7 @@ import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.get
+import androidx.recyclerview.widget.RecyclerView
 
 class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
 
@@ -90,7 +91,8 @@ class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
         axes: Int,
         type: Int
     ): Boolean {
-        return (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && (child == directTargetChild)
+        return (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && (child == directTargetChild) &&
+                !(child[0] as RecyclerView).canScrollVertically(-1)
     }
 
     override fun onNestedPreScroll(
