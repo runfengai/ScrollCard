@@ -10,10 +10,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val list = mutableListOf<String>()
-        for (i in 0 until 50) {
+        for (i in 0 until 10) {
             list.add("$i $i")
         }
 
-        card0.setData(Entity("水果",list))
+        card0.setData(Entity("苹果",list))
+        card1.setData(Entity("香蕉",list))
+        card1.setData(Entity("柿子",list))
     }
 }

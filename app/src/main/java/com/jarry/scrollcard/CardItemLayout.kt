@@ -5,13 +5,24 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import kotlinx.android.synthetic.main.card_item.view.*
 
+@CoordinatorLayout.DefaultBehavior(ScrollCardBehavior::class)
 class CardItemLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+
     private var simpleAdapter: SimpleAdapter
+    //记录标题高度
+    var titleH: Int = 0
+        get() {
+            if (field == 0) {
+                return 104
+            }
+            return field
+        }
 
     init {
         LayoutInflater.from(this.context).inflate(R.layout.card_item, this)
@@ -41,4 +52,12 @@ class CardItemLayout @JvmOverloads constructor(
         tvTitle.text = entity.title
         simpleAdapter.noti(entity.list)
     }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (w != oldw && h != oldh) {
+            titleH = tvTitle.measuredHeight
+        }
+    }
+
 }

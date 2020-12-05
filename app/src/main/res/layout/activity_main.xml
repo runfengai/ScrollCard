@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <com.jarry.scrollcard.CardItemLayout
         android:id="@+id/card0"
-        android:text="@string/fruit"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:text="@string/fruit" />
+
+    <com.jarry.scrollcard.CardItemLayout
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/fruit"
+        app:titleBackgroundColor="#5A5" />
+
+    <com.jarry.scrollcard.CardItemLayout
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/fruit"
+        app:titleBackgroundColor="#A55" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
