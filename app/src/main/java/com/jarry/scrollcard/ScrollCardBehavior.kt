@@ -1,5 +1,7 @@
 package com.jarry.scrollcard
 
+import android.content.Context
+import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -7,10 +9,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 
-class ScrollCardBehavior : CoordinatorLayout.Behavior<CardItemLayout>() {
-companion object{
-    const val TAG="ScrollCardBehavior"
-}
+class ScrollCardBehavior :
+    CoordinatorLayout.Behavior<CardItemLayout> {
+    //默认，及在xml中设置
+    constructor() : super()
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
+
+    companion object {
+        const val TAG = "ScrollCardBehavior"
+    }
+
     //记录垂直方向的偏移量
     private var mInitialOffset: Int = 0
 
@@ -94,9 +102,9 @@ companion object{
         axes: Int,
         type: Int
     ): Boolean {
-        val res= (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && (child == directTargetChild) &&
+        val res = (axes and ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && (child == directTargetChild) &&
                 !(child[0] as RecyclerView).canScrollVertically(-1)
-        Log.e(TAG,"onStartNestedScroll :: return $res")
+        Log.e(TAG, "onStartNestedScroll :: return $res")
         return res
     }
 
