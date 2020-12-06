@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpleAdapter constructor(private var mList: MutableList<String>) :
-    RecyclerView.Adapter<SimpleAdapter.MyHd>() {
+class MyAdapter constructor(private var mList: MutableList<String>) :
+    RecyclerView.Adapter<MyAdapter.MyHd>() {
 
     fun noti(list: MutableList<String>) {
         this.mList.clear()

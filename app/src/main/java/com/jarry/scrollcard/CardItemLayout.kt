@@ -14,7 +14,7 @@ class CardItemLayout @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
 
-    private var simpleAdapter: SimpleAdapter
+    private var simpleAdapter: MyAdapter
     //记录标题高度
     var titleH: Int = 0
         get() {
@@ -43,7 +43,7 @@ class CardItemLayout @JvmOverloads constructor(
         tvTitle.setTextColor(textColor)
         tvTitle.setBackgroundColor(bg)
 
-        simpleAdapter = SimpleAdapter(mutableListOf())
+        simpleAdapter = MyAdapter(mutableListOf())
         rv.adapter = simpleAdapter
         typedArray.recycle()
     }
